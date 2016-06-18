@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.2.3
+services:
+  - postgresql
+env: POSTGRESQL_DB_USER=postgres
+before_script: bundle exec rake create_databases
+script: bundle exec rake test
+after_script: bundle exec rake drop_databases
