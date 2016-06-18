@@ -14,3 +14,6 @@
 
 # OS specific files
 .DS_Store
+
+# gem file
+*.gem
