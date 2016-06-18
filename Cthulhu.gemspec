@@ -22,11 +22,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.11"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "minitest", "~> 5.0"
-  spec.add_development_dependency "pg"
-  spec.add_development_dependency "schema_dev"
-  spec.add_development_dependency "pry"
-  spec.add_development_dependency "factory_girl"
-  spec.add_development_dependency "database_cleaner"
+  spec.add_development_dependency "pg", '~> 0'
+  spec.add_development_dependency "schema_dev", '~> 0'
+  spec.add_development_dependency "pry", '~> 0'
+  spec.add_development_dependency "factory_girl", '~> 0'
+  spec.add_development_dependency "database_cleaner", '~> 0'
 
-  spec.add_dependency "activerecord", "~> 4.2.6"
+  spec.add_dependency "activerecord", "~> 4.2"
 end
