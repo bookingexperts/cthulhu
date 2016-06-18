@@ -54,36 +54,87 @@ Cthulhu crawls over all child associations (AKA `has_many`, `has_one`, `has_and_
 
 So if you have an application that its database looks like this:
 
->
->         users
->       /   |   \
->    posts  |    \
->    |   \  |     \
->     \ comments  |
->      \    |    /
->       \   |   /
->        \  |  /
->        images
->
+```
+
+     users
+   /   |   \
+posts  |    \
+|   \  |     \
+ \ comments  |
+  \    |    /
+   \   |   /
+    \  |  /
+    images
+
+```
 (see test/models.rb)
 
 You can expect the following queries to be executed if you do `Cthulhu.destroy! User.find(5)`
 
 ```sql
 -- images that belong to #5's posts
-DELETE FROM "images" WHERE "images"."id" IN (SELECT "images"."id" FROM "images" inner join "posts" as "t0" on "t0"."id"="images"."imagable_id" AND "images"."imagable_type" in ('Post') inner join "users" as "t1" on "t1"."id"="t0"."user_id" WHERE "t1"."id" = 5);
+DELETE FROM "images"
+WHERE  "images"."id" IN (SELECT "images"."id"
+                         FROM   "images"
+                                INNER JOIN "posts" AS "t0"
+                                        ON "t0"."id" = "images"."imagable_id"
+                                           AND "images"."imagable_type" IN (
+                                               'Post' )
+                                INNER JOIN "users" AS "t1"
+                                        ON "t1"."id" = "t0"."user_id"
+                         WHERE  "t1"."id" = 5);
+
 -- images that belong to #5's comments
-DELETE FROM "images" WHERE "images"."id" IN (SELECT "images"."id" FROM "images" inner join "comments" as "t0" on "t0"."id"="images"."imagable_id" AND "images"."imagable_type" in ('Comment') inner join "posts" as "t1" on "t1"."id"="t0"."post_id" inner join "users" as "t2" on "t2"."id"="t1"."user_id" WHERE "t2"."id" = 5);
+DELETE FROM "images"
+WHERE  "images"."id" IN (SELECT "images"."id"
+                         FROM   "images"
+                                INNER JOIN "comments" AS "t0"
+                                        ON "t0"."id" = "images"."imagable_id"
+                                           AND "images"."imagable_type" IN
+                                               ( 'Comment' )
+                                INNER JOIN "posts" AS "t1"
+                                        ON "t1"."id" = "t0"."post_id"
+                                INNER JOIN "users" AS "t2"
+                                        ON "t2"."id" = "t1"."user_id"
+                         WHERE  "t2"."id" = 5);
+
 -- Comments of #5's posts
-DELETE FROM "comments" WHERE "comments"."id" IN (SELECT "comments"."id" FROM "comments" inner join "posts" as "t0" on "t0"."id"="comments"."post_id" inner join "users" as "t1" on "t1"."id"="t0"."user_id" WHERE "t1"."id" = 5);
+DELETE FROM "comments"
+WHERE  "comments"."id" IN (SELECT "comments"."id"
+                           FROM   "comments"
+                                  INNER JOIN "posts" AS "t0"
+                                          ON "t0"."id" = "comments"."post_id"
+                                  INNER JOIN "users" AS "t1"
+                                          ON "t1"."id" = "t0"."user_id"
+                           WHERE  "t1"."id" = 5);
+
 -- #5's posts
-DELETE FROM "posts" WHERE "posts"."id" IN (SELECT "posts"."id" FROM "posts" inner join "users" as "t0" on "t0"."id"="posts"."user_id" WHERE "t0"."id" = 5);
+DELETE FROM "posts"
+WHERE  "posts"."id" IN (SELECT "posts"."id"
+                        FROM   "posts"
+                               INNER JOIN "users" AS "t0"
+                                       ON "t0"."id" = "posts"."user_id"
+                        WHERE  "t0"."id" = 5);
+
 -- #5's comments
-DELETE FROM "comments" WHERE "comments"."id" IN (SELECT "comments"."id" FROM "comments" inner join "users" as "t0" on "t0"."id"="comments"."user_id" WHERE "t0"."id" = 5);
+DELETE FROM "comments"
+WHERE  "comments"."id" IN (SELECT "comments"."id"
+                           FROM   "comments"
+                                  INNER JOIN "users" AS "t0"
+                                          ON "t0"."id" = "comments"."user_id"
+                           WHERE  "t0"."id" = 5);
+
 -- #5's images
-DELETE FROM "images" WHERE "images"."id" IN (SELECT "images"."id" FROM "images" inner join "users" as "t0" on "t0"."id"="images"."user_id" WHERE "t0"."id" = 5);
+DELETE FROM "images"
+WHERE  "images"."id" IN (SELECT "images"."id"
+                         FROM   "images"
+                                INNER JOIN "users" AS "t0"
+                                        ON "t0"."id" = "images"."user_id"
+                         WHERE  "t0"."id" = 5);
+
 -- #5
-DELETE FROM "users" WHERE "users"."id" = 5;
+DELETE FROM "users"
+WHERE  "users"."id" = 5;
 ```
 
 In above scenario, it is possibly to nullify the comments and images of user instead of removing them completely without changing anything in actual association:
