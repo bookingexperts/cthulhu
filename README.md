@@ -70,7 +70,7 @@ posts  |    \
     images
 
 ```
-(see test/models.rb)
+(see [test/models.rb](test/models.rb))
 
 You can expect the following queries to be executed if you do `Cthulhu.destroy! User.find(5)`
 
