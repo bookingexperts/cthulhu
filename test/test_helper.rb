@@ -7,6 +7,7 @@ require 'factory_girl'
 require 'minitest/autorun'
 require 'models'
 require 'db_definition'
+require 'active_support/testing/assertions'
 
 FactoryGirl.definition_file_paths = [ 'test/factories' ]
 FactoryGirl.find_definitions
@@ -33,6 +34,7 @@ DatabaseCleaner.strategy = :transaction
 class Minitest::Spec
 
   include FactoryGirl::Syntax::Methods
+  include ActiveSupport::Testing::Assertions
 
   before(:each) do
     DatabaseCleaner.start
