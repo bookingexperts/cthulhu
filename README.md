@@ -1,3 +1,6 @@
+
+![Build status](https://api.travis-ci.org/bookingexperts/cthulhu.svg?branch=master "Build status")
+
 # Cthulhu
 
 ![Cthulhu, the destroyer of words](Cthulhu.jpg?raw=true "Cthulhu")
