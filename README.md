@@ -1,5 +1,4 @@
-
-![Build status](https://api.travis-ci.org/bookingexperts/cthulhu.svg?branch=master "Build status")
+[![Build Status](https://travis-ci.org/bookingexperts/cthulhu.svg?branch=master)](https://travis-ci.org/bookingexperts/cthulhu)
 
 # Cthulhu
 
