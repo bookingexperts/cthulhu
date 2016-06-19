@@ -2,7 +2,7 @@
 
 # Cthulhu
 
-![Cthulhu, the destroyer of words](Cthulhu.jpg?raw=true "Cthulhu")
+![Cthulhu, the destroyer of worlds](Cthulhu.jpg?raw=true "Cthulhu")
 
 By using this gem, you will be able to destroy objects and all of their associated children without fetching them from database or using cascade.
 
@@ -11,9 +11,11 @@ This is useful for big applications that:
  * have foreign keys but you do not want to setup cascades to protect users from removing stuff that they do not mean.
  * Database is too big and you do not want to use ActiveRecord's `dependant: :destroy` for performance reasons.
 
-So as foreign keys are setup, you can not accidentally destroy a record and all of its children by doing something like this in console:
+So as foreign keys are setup, you can not accidentally destroy a record:
 
 ```ruby
+# will raise ActiveRecord::InvalidForeignKey if other tables are referencing to
+# this row.
 User.destroy 1
 ```
 
@@ -25,7 +27,7 @@ Cthulhu.destroy! User.find(1)
 
 ## Transaction
 
-Keep in mind that Cthulhu is destroyer, therefore, it is not wrapped in any transaction. To be safe, you need to call it within a transaction like so:
+Keep in mind that Cthulhu is a destroyer, therefore, it is not wrapped in any transaction. To be safe, you need to call it within a transaction like this:
 
 ```ruby
 user = User.find 1
@@ -139,7 +141,7 @@ DELETE FROM "users"
 WHERE  "users"."id" = 5;
 ```
 
-In above scenario, it is possibly to nullify the comments and images of user instead of removing them completely without changing anything in actual association:
+In above scenario, it is possible to nullify the comments and images of user instead of removing them completely without changing anything in actual association:
 
 ```ruby
 Cthulhu.destroy! User.find(5),
