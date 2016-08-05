@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/bookingexperts/cthulhu.svg?branch=master)](https://travis-ci.org/bookingexperts/cthulhu)
+[![Build Status](https://semaphoreci.com/api/v1/bookingexperts/cthulhu/branches/master/badge.svg)](https://semaphoreci.com/bookingexperts/cthulhu)
 
 # Cthulhu
 
